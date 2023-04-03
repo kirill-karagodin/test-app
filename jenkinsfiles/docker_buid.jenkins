@@ -31,7 +31,7 @@ pipeline {
                 steps {
                     echo "========= Create Docker  ========="
                     dir ('docker/') {
-                        sh 'docker build -t $USERNAME/test_app:"${TAG}" . '
+                        sh 'docker build -t kirillkaragodin/test_app:"${TAG}" . '
 
                     }
                 }
@@ -40,7 +40,7 @@ pipeline {
             steps {
                 echo " ============== start pushing image =================="
                 sh '''
-                docker push $USERNAME/test_app:"${TAG}"
+                docker push kirillkaragodin/test_app:"${TAG}"
                 '''
             }
         }
