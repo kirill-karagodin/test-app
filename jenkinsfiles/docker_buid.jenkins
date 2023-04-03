@@ -30,12 +30,9 @@ pipeline {
         stage("create docker image") {
                 steps {
                     echo "========= Create Docker  ========="
-                    script{
-                        try{
-                            cd docker
-                            sed -i "s/Version: .*<p>/Version: "${TAG}"</p>/g" index.html
-                            sh 'docker build -t $USERNAME/test_app:"${TAG}" . '
-                        }
+                    dir ('docker/') {
+                        sh 'docker build -t $USERNAME/test_app:"${TAG}" . '
+
                     }
                 }
             }
