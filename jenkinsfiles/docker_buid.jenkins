@@ -33,7 +33,7 @@ pipeline {
                     script{
                         try{
                             cd docker
-                            sed -i "s/Version: .*<\/p>/Version: "${TAG}"<\/p>/g" index.html
+                            sed -i "s/Version: .*<\/p>/Version: "${TAG}"</p>/g" index.html
                             sh 'docker build -t $USERNAME/test_app:"${TAG}" . '
                         }
                     }
