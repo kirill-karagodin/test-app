@@ -6,7 +6,7 @@ pipeline {
     agent {
         label 'stage_agent'
     }
-    triggers { pollSCM('H/1 * * * *') }
+    triggers { pollSCM('H/5 * * * *') }
     parameters {
         gitParameter name: 'TAG',
                      type: 'PT_TAG',
