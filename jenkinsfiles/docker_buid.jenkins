@@ -10,7 +10,6 @@ pipeline {
     parameters {
         gitParameter name: 'TAG',
                      type: 'PT_TAG',
-                     defaultValue: 'main'
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
@@ -40,7 +39,7 @@ pipeline {
             steps {
                 echo " ============== start pushing image =================="
                 sh '''
-                docker push kirillkaragodin/test_app:TAG
+                docker push kirillkaragodin/test_app:"${params.TAG}"
                 '''
             }
         }
