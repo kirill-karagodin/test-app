@@ -30,7 +30,7 @@ pipeline {
                 steps {
                     echo "========= Create Docker  ========="
                     dir ('docker/') {
-                        sh 'docker build -t kirillkaragodin/test_app:"${params.TAG}" . '
+                        sh 'docker build -t kirillkaragodin/test_app:"${TAG}" . '
 
                     }
                 }
