@@ -31,7 +31,7 @@ pipeline {
                 echo " ============== docker login =================="
                 withCredentials([usernamePassword(credentialsId: 'docker_karagodin', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh """
-                    docker login -u $USERNAME -p MyBrain1s0ver
+                    docker login -u $USERNAME -p $PASSWORD
                     """
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
                 steps {
                     echo "========= Create Docker  ========="
                     dir ('docker/') {
-                        sh 'docker build -t kirillkaragodin/test_app:TAG . '
+                        sh 'docker build -t kirillkaragodin/test_app:$TAG . '
 
                     }
                 }
