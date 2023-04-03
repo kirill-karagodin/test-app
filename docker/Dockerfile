@@ -1,2 +1,2 @@
 FROM nginx:stable
-COPY index.html main.svg /usr/share/nginx/html/
+COPY index.html /usr/share/nginx/html/
