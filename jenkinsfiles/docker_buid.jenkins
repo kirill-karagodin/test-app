@@ -8,18 +8,10 @@ pipeline {
     }
     triggers { pollSCM('* * * * *') }
     parameters {
-        choice choices: ['TAG'], description: '', name: 'TYPE'
-        gitParameter (  branch: '',
-                        branchFilter: '.*',
-                        defaultValue: 'main',
-                        description: '',
-                        name: 'TAG',
-                        quickFilterEnabled: true,
-                        selectedValue: 'NONE',
-                        sortMode: 'NONE',
-                        tagFilter: '*',
-                        type: 'PT_TAG',
-                        useRepository: 'git@github.com:kirill-karagodin/test-app.git')
+        gitParameter name: 'TAG',
+                     type: 'PT_TAG',
+                     defaultValue: 'main'
+                     useRepository: 'git@github.com:kirill-karagodin/test-app.git'
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
