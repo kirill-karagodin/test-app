@@ -6,7 +6,7 @@ pipeline {
     agent {
         label 'stage-agent'
     }
-    triggers { pollSCM('*****') }
+    triggers { pollSCM('* * * * *') }
     parameters {
         choice choices: ['TAG'], description: '', name: 'TYPE'
         gitParameter (  branch: '',
