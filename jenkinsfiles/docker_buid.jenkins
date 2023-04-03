@@ -8,7 +8,7 @@ pipeline {
     }
     triggers { pollSCM('*****') }
     parameters {
-        choice choices: [TAG'], description: '', name: 'TYPE'
+        choice choices: ['TAG'], description: '', name: 'TYPE'
         gitParameter (  branch: '',
                         branchFilter: '.*',
                         defaultValue: 'main',
