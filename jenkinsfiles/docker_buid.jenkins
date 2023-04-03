@@ -9,7 +9,7 @@ pipeline {
     triggers { pollSCM('* * * * *') }
     parameters {
         gitParameter name: 'TAG',
-                     type: 'PT_TAG',
+                     type: 'PT_TAG'
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
