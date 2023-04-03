@@ -36,8 +36,7 @@ pipeline {
                 }
             }
         }
-        stages {
-            stage("create docker image") {
+        stage("create docker image") {
                 steps {
                     echo "========= Create Docker  ========="
                     dir ('docker/') {
@@ -46,8 +45,7 @@ pipeline {
                     }
                 }
             }
-        }
-        stages("docker push") {
+        stage("docker push") {
             steps {
                 echo " ============== start pushing image =================="
                 sh '''
