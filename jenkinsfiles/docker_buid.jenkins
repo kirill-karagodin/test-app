@@ -1,0 +1,59 @@
+#!groovy
+// Run docker build and push
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent {
+        label 'stage-agent'
+    }
+    triggers { pollSCM('*****') }
+    parameters {
+        choice choices: [TAG'], description: '', name: 'TYPE'
+        gitParameter (  branch: '',
+                        branchFilter: '.*',
+                        defaultValue: 'main',
+                        description: '',
+                        name: 'TAG',
+                        quickFilterEnabled: true,
+                        selectedValue: 'NONE',
+                        sortMode: 'NONE',
+                        tagFilter: '*',
+                        type: 'PT_TAG',
+                        useRepository: 'git@github.com:kirill-karagodin/test-app.git')
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("docker login") {
+            steps {
+                echo " ============== docker login =================="
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_karagodin', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh """
+                    docker login -u $USERNAME -p $PASSWORD
+                    """
+                }
+            }
+        }
+        stage {
+            stage("create docker image") {
+                steps {
+                    echo "========= Create Docker  ========="
+                    dir ('docker/') {
+                        sh 'docker build -t kirillkaragodin/test_app:TAG . '
+
+                    }
+                }
+            }
+        }
+        stage("docker push") {
+            steps {
+                echo " ============== start pushing image =================="
+                sh '''
+                docker push kirillkaragodin/test_app:TAG
+                '''
+            }
+        }
+    }
+}
