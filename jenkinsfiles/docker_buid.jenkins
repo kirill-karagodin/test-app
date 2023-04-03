@@ -39,7 +39,7 @@ pipeline {
             steps {
                 echo " ============== start pushing image =================="
                 sh '''
-                docker push kirillkaragodin/test_app:"${params.TAG}"
+                docker push kirillkaragodin/test_app:"${TAG}"
                 '''
             }
         }
