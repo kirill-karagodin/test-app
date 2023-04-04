@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testapp-deployment
+  labels:
+     app: testapp
+     type: stage
+spec:
+  template:
+     metadata:
+       name: testapp-pod
+       labels:
+         app: nodejsapp
+         type: stage
+     spec:
+         containers:
+           - name: nodejsapp-erp
+             image: "kirillkaragodin/test_app:"${TAG}""
+  replicas: 1
+  selector:
+    matchLabels:
+      type: stage
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-service
+spec:
+  selector:
+    app: nodejsapp
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      targetPort: 80
+      port: 80
+      nodePort: 80

@@ -1,0 +1,31 @@
+#!groovy
+// Run docker deploy for k8s-stage
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent {
+        label 'stage_agent'
+    }
+    triggers { pollSCM('H/10 * * * *') }
+    parameters {
+        gitParameter name: 'TAG',
+                     type: 'PT_TAG'
+    }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stage('Deploy to K8s') {
+        steps{
+            sshagent(['k8s-jenkins']) {
+                sh 'scp -r -o StrictHostKeyChecking=no path/stage-deployment.yaml cloud-user@10.200.80.6:/tmp'
+                script{
+                    try{
+                        sh 'ssh cloud-user@10.200.80.6 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml'
+                    }catch(error){
+                    }
+                }
+            }
+        }
+    }
+}
