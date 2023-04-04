@@ -53,7 +53,7 @@ spec:
     }
     stages('Deploy to K8s') {
         stage {
-            steps{
+            steps {
                 echo " ============== K8S deploy STAGE =================="
                     sh 'scp -r -o StrictHostKeyChecking=no stage-deployment.yaml cloud-user@10.200.80.6:/tmp'
                     sh 'ssh cloud-user@10.200.100.11 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml'
