@@ -16,7 +16,7 @@ spec:
      spec:
          containers:
            - name: nodejsapp-erp
-             image: "kirillkaragodin/test_app:"${TAG}""
+             image: "kirillkaragodin/test_app:1.2.5"
   replicas: 1
   selector:
     matchLabels:

@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage("create file") {
             steps {
-                echo " ============== K8S create and copy file STAGE =================="
+                echo " ============== K8S create and copy file (STAGE) =================="
                 sh '''
                 scp -r -o StrictHostKeyChecking=no stage-deployment.yaml cloud-user@10.200.80.6:/tmp
                 '''
