@@ -12,7 +12,7 @@ pipeline {
                      type: 'PT_TAG',
                      defaultValue: 'lataest',
                      selectedValue: 'TOP',
-                     sortMode: 'ASCENDING'
+                     sortMode: 'DESCENDING'
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
