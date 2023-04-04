@@ -5,11 +5,55 @@ properties([disableConcurrentBuilds()])
 pipeline {
     agent {
         label 'stage_agent'
+        defaultContainer 'stage-deployment'
+        yaml """
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testapp-deployment
+  labels:
+     app: testapp
+     type: stage
+spec:
+  template:
+     metadata:
+       name: testapp-pod
+       labels:
+         app: nodejsapp
+         type: stage
+     spec:
+         containers:
+           - name: nodejsapp-erp
+             image: "kirillkaragodin/test_app:"${TAG}""
+  replicas: 1
+  selector:
+    matchLabels:
+      type: stage
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodejs-service
+spec:
+  selector:
+    app: nodejsapp
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      targetPort: 80
+      port: 80
+      nodePort: 80
+"""
     }
-    triggers { pollSCM('H/10 * * * *') }
-    parameters {
+        parameters {
         gitParameter name: 'TAG',
                      type: 'PT_TAG'
+                     defaultValue: 'latest',
+                     tagFilter: '*',
+                     selectedValue: 'TOP',
+                     sortMode: 'DESCENDING'
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
@@ -17,14 +61,10 @@ pipeline {
     }
     stage('Deploy to K8s') {
         steps{
-            sshagent(['k8s-jenkins']) {
-                sh 'sed -i "s/image: "kirillkaragodin/test_app:.*"/image: "kirillkaragodin/test_app:"${TAG}""/g" stage-deployment.yaml'
-                sh 'scp -r -o StrictHostKeyChecking=no path/stage-deployment.yaml cloud-user@10.200.80.6:/tmp'
-                script{
-                    try{
-                        sh 'ssh cloud-user@10.200.100.11 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml'
-                    }catch(error){
-                    }
+            echo " ============== K8S deploy STAGE =================="
+                sh 'scp -r -o StrictHostKeyChecking=no stage-deployment.yaml cloud-user@10.200.80.6:/tmp'
+                sh 'ssh cloud-user@10.200.100.11 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml'
+
                 }
             }
         }
