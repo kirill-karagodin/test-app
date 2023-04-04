@@ -51,19 +51,23 @@ spec:
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
     }
-    stages('Deploy to K8s') {
+    stages("create file") {
         stage {
             steps {
                 echo " ============== K8S create and copy file STAGE =================="
-                    sh 'scp -r -o StrictHostKeyChecking=no stage-deployment.yaml cloud-user@10.200.80.6:/tmp'
+                sh '''
+                scp -r -o StrictHostKeyChecking=no stage-deployment.yaml cloud-user@10.200.80.6:/tmp
+                '''
                 }
             }
         }
-    stages('Deploy to K8s') {
+    stages("deploy docker image") {
         stage {
             steps {
                 echo " ============== K8S deploy STAGE =================="
-                    sh 'ssh cloud-user@10.200.100.11 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml'
+                sh '''
+                ssh cloud-user@10.200.100.11 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml
+                '''
             }
         }
     }
