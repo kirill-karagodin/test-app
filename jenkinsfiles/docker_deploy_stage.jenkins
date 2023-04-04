@@ -6,14 +6,6 @@ pipeline {
     agent {
         label 'stage_agent'
     }
-    parameters {
-        gitParameter name: 'TAG',
-                     type: 'PT_TAG'
-                     defaultValue: 'latest',
-                     tagFilter: '*',
-                     selectedValue: 'TOP',
-                     sortMode: 'DESCENDING'
-    }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
