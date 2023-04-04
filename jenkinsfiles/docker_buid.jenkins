@@ -11,7 +11,7 @@ pipeline {
         gitParameter name: 'TAG',
                      type: 'PT_TAG',
                      defaultValue: 'latest',
-                     tagFilter: 'git for-each-ref refs / tags --sort = -taggerdate --format = '% (refname)' --count = 1',
+                     tagFilter: '*',
                      selectedValue: 'TOP',
                      sortMode: 'DESCENDING'
     }
