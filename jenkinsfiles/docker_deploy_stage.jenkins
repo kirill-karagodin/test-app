@@ -22,7 +22,7 @@ pipeline {
                 sh 'scp -r -o StrictHostKeyChecking=no path/stage-deployment.yaml cloud-user@10.200.80.6:/tmp'
                 script{
                     try{
-                        sh 'ssh cloud-user@10.200.80.6 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml'
+                        sh 'ssh cloud-user@10.200.100.11 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml'
                     }catch(error){
                     }
                 }
