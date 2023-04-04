@@ -9,7 +9,10 @@ pipeline {
     triggers { pollSCM('H/5 * * * *') }
     parameters {
         gitParameter name: 'TAG',
-                     type: 'PT_TAG'
+                     type: 'PT_TAG',
+                     defaultValue: 'lataest',
+                     selectedValue: 'TOP',
+                     sortMode: 'ASCENDING'
     }
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
