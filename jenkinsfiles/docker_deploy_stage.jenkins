@@ -58,16 +58,14 @@ spec:
                 sh '''
                 scp -r -o StrictHostKeyChecking=no stage-deployment.yaml cloud-user@10.200.80.6:/tmp
                 '''
-                }
             }
+        }
         stage("deploy docker image") {
-            stage {
-                steps {
-                    echo " ============== K8S deploy STAGE =================="
-                    sh '''
-                    ssh cloud-user@10.200.100.11 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml
-                    '''
-                }
+            steps {
+                echo " ============== K8S deploy STAGE =================="
+                sh '''
+                ssh cloud-user@10.200.100.11 kubectl apply -f /tmp/stage-deployment.yaml --kubeconfig=/path/kube.yaml
+                '''
             }
         }
     }
