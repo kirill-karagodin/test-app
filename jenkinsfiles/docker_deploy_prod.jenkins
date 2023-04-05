@@ -22,9 +22,11 @@ pipeline {
         stage("create file") {
             steps {
                 echo " ============== K8S create and copy file (STAGE) =================="
+                dir ('path/') {
+                sh 'sed -i "s/image:.*/image: "kirillkaragodin\\\\/test-app:"${TAG}""/g" prod-deployment.yaml'
+                }
                 sh '''
-                sed -i 's/image:.*/image: "kirillkaragodin\\\\/test-app:${TAG}"/g' path/stage-deployment.yaml
-                scp -r -o StrictHostKeyChecking=no path/stage-deployment.yaml cloud-user@10.200.110.11:/tmp
+                scp -r -o StrictHostKeyChecking=no path/prod-deployment.yaml cloud-user@10.200.110.11:/tmp
                 '''
             }
         }
