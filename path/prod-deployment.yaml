@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: testapp
-  namespace: stage
+  namespace: prod
 spec:
   replicas: 3
   selector:
@@ -24,7 +24,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nginx-service
-  namespace: stage
+  namespace: prod
 spec:
   type: ClusterIP
   ports:
@@ -39,7 +39,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: test-ingress
-  namespace: stage
+  namespace: prod
 spec:
   rules:
   - host: prod-node1.netology.cloud
