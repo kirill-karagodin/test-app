@@ -42,7 +42,7 @@ metadata:
   namespace: stage
 spec:
   rules:
-  - host: prod-node1.netology.cloud
+  - host: stage-node1.netology.cloud
     http:
       paths:
       - path: /
