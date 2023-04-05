@@ -35,6 +35,7 @@ pipeline {
                     echo "========= Create Docker  ========="
                     dir ('docker/') {
                         sh 'sed -i "s/Version: .*<\\/p>/Version: "${TAG}"<\\/p>/g" index.html'
+                        sh 'cat index.html | grep Version'
                         sh 'docker build -t kirillkaragodin/test_app:"${TAG}" . '
 
                     }
