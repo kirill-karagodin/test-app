@@ -34,7 +34,7 @@ pipeline {
             steps {
                 echo " ============== K8S deploy STAGE =================="
                 sh '''
-                ssh cloud-user@10.200.110.11 kubectl apply -f /tmp/stage-deployment.yaml
+                ssh cloud-user@10.200.110.11 kubectl apply -f /tmp/prod-deployment.yaml
                 '''
             }
         }
